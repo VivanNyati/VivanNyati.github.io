@@ -1,0 +1,11 @@
+- url: "/img/gallery/image1.jpg"
+  thumbnail: "/img/gallery/thumbs/thumb1.jpg"
+  caption: "A beautiful landscape"
+
+- url: "/img/gallery/image2.jpg"
+  thumbnail: "/img/gallery/thumbs/thumb2.jpg"
+  caption: "Another beautiful image"
+
+- url: "/img/gallery/image3.jpg"
+  thumbnail: "/img/gallery/thumbs/thumb3.jpg"
+  caption: "Sunset over the mountains"
