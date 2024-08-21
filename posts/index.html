@@ -1,48 +1,20 @@
 ---
 layout: page
-title: Posts
-background: '/img/bg-post.jpg'
+title: Gallery
+background: '/img/bg-gallery.jpg'
 ---
 
-{% for post in paginator.posts %}
-
-<article class="post-preview">
-  <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-    <h2 class="post-title">{{ post.title }}</h2>
-    {% if post.subtitle %}
-    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-    {% else %}
-    <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-    {% endif %}
-  </a>
-  <p class="post-meta">Posted by
-    {% if post.author %}
-    {{ post.author }}
-    {% else %}
-    {{ site.author }}
-    {% endif %}
-    on {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}
-  </p>
-</article>
-
-<hr>
-
-{% endfor %}
-
-<!-- Pager -->
-{% if paginator.total_pages > 1 %}
-
-<div class="clearfix">
-
-  {% if paginator.previous_page %}
-  <a class="btn btn-primary float-left" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr;
-    Previous<span class="d-none d-md-inline"> Experiments</span></a>
-  {% endif %}
-
-  {% if paginator.next_page %}
-  <a class="btn btn-primary float-right" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Other<span class="d-none d-md-inline"> Experiments</span> &rarr;</a>
-  {% endif %}
-
+<div class="container">
+  <div class="row">
+    <!-- Loop through images -->
+    {% assign gallery_images = site.data.gallery-images %}
+    {% for image in gallery_images %}
+    <div class="col-lg-4 col-md-6 col-sm-12 gallery-item">
+      <a href="{{ image.url }}">
+        <img src="{{ image.thumbnail }}" alt="{{ image.caption }}" class="img-fluid">
+      </a>
+      <p class="gallery-caption">{{ image.caption }}</p>
+    </div>
+    {% endfor %}
+  </div>
 </div>
-
-{% endif %}
