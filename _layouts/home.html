@@ -29,37 +29,26 @@ layout: default
 
       {{ content }}
 
-      <!-- Home Post List -->
-      {% for post in site.posts limit: 5 %}
-
+      <!-- Manually Added Links -->
       <article class="post-preview">
-        <a href="{% if post.redirect_url %}{{ post.redirect_url }}{% else %}{{ post.url | prepend: site.baseurl | replace: '//', '/' }}{% endif %}">
-          <h2 class="post-title">{{ post.title }}</h2>
-          {% if post.subtitle %}
-          <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-          {% else %}
-          <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-          {% endif %}
+        <a href="https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/">
+          <h2 class="post-title">Peripheral Vision Workshop</h2>
+          <h3 class="post-subtitle">Explore the science of peripheral vision.</h3>
         </a>
-        <p class="post-meta">Posted by
-          {% if post.author %}
-          {{ post.author }}
-          {% else %}
-          {{ site.author }}
-          {% endif %}
-          on
-          {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}
-        </p>
+        <p class="post-meta">Posted by {{ site.author }} on August 20, 2024</p>
       </article>
 
       <hr>
 
-      {% endfor %}
+      <article class="post-preview">
+        <a href="https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/">
+          <h2 class="post-title">Saccade Vision Workshop</h2>
+          <h3 class="post-subtitle">Explore the science of saccade vision.</h3>
+        </a>
+        <p class="post-meta">Posted by {{ site.author }} on August 20, 2024</p>
+      </article>
 
-      <!-- Pager -->
-      <div class="clearfix">
-        <a class="btn btn-primary float-right" href="{{ "/posts" | relative_url }}">View All Posts &rarr;</a>
-      </div>
+      <hr>
 
     </div>
   </div>
