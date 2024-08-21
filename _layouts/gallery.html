@@ -24,10 +24,10 @@ layout: default
 <!-- Gallery Content -->
 <div class="container">
   <div class="row">
-    {% for image in site.data.gallery %}
+    {% for image in site.data.gallery-images %}
     <div class="col-md-4">
       <div class="gallery-item">
-        <img src="{{ image.url }}" alt="{{ image.caption }}">
+        <img src="{{ image.url }}" alt="{{ image.caption }}" class="img-fluid">
         <p>{{ image.caption }}</p>
       </div>
     </div>
