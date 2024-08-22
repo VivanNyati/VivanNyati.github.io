@@ -85,7 +85,7 @@ layout: default
       var matchingExperiments = [];
       experiments.forEach(experiment => {
         experiment.keywords.forEach(keyword => {
-          if (areStringsSimilar(interest, keyword, 0.66)) {
+          if (areStringsSimilar(interest, keyword, 0.75)) {
             if (!matchingExperiments.some(exp => exp.name === experiment.name)) {
               matchingExperiments.push({
                 name: experiment.name,
@@ -95,7 +95,7 @@ layout: default
           }
         });
       });
-      return matchingExperiments.length ? matchingExperiments : [{ name: "Sorry, we couldn't find any matching experiments.", url: '#' }];
+      return matchingExperiments.length ? matchingExperiments : [{ name: "Sorry, we couldn't find any matching experiments.", url: '' }];
     }
 
     // Get the suggested experiments
