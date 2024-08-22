@@ -66,6 +66,7 @@ layout: default
   </div>
 </div>
 
+<!-- Ensure the script is correctly linked -->
 <script src="{{ '/assets/js/similarity.js' | relative_url }}"></script>
 <script>
   document.getElementById('interestForm').addEventListener('submit', function(e) {
@@ -86,7 +87,9 @@ layout: default
       experiments.forEach(experiment => {
         experiment.keywords.forEach(keyword => {
           if (areStringsSimilar(interest, keyword, 0.5)) {
-            matchingExperiments.push(experiment.name);
+            if (!matchingExperiments.includes(experiment.name)) {
+              matchingExperiments.push(experiment.name);
+            }
           }
         });
       });
