@@ -17,3 +17,37 @@ background: '/img/bg-index.jpg'
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('interestForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Get the user's interest input
+    var interest = document.getElementById('userInterest').value.toLowerCase();
+
+    // List of experiments and keyword matching
+    var experiments = [
+      { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'] },
+      { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'] }
+    ];
+
+    // Function to find a matching experiment
+    function findExperiment(interest) {
+      for (var i = 0; i < experiments.length; i++) {
+        for (var j = 0; j < experiments[i].keywords.length; j++) {
+          if (interest.includes(experiments[i].keywords[j])) {
+            return experiments[i].name;
+          }
+        }
+      }
+      // Default suggestion if no match is found
+      return "Sorry, we couldn't find a matching experiment.";
+    }
+
+    // Get the suggested experiment
+    var suggestedExperiment = findExperiment(interest);
+
+    // Display the suggested experiment
+    document.getElementById('suggestedExperiment').innerHTML = "<h3>Suggested Experiment: " + suggestedExperiment + "</h3>";
+  });
+</script>
