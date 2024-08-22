@@ -1,4 +1,6 @@
 - url: /img/gallery/image1.jpg
-  caption: "Amazing Sunset"
+  caption: "Amazing Sunset (Test)"
 - url: /img/gallery/image2.jpg
-  caption: "Beautiful Landscape"
+  caption: "Beautiful Landscape (Test)"
+- url: /img/gallery/image3.jpg
+  caption: "Clague Middle School Collage"
