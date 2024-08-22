@@ -2,42 +2,52 @@
   document.getElementById('interestForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Get the user's interest input
-    var interest = document.getElementById('userInterest').value.toLowerCase();
+    try {
+      // Get the user's interest input
+      var interest = document.getElementById('userInterest').value.toLowerCase();
 
-    // List of experiments with keywords and links
-    var experiments = [
-      { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'], url: 'https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/' },
-      { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'], url: 'https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/' }
-    ];
+      // List of experiments with keywords and links
+      var experiments = [
+        { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'], url: 'https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/' },
+        { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'], url: 'https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/' }
+      ];
 
-    // Function to find matching experiments based on cosine similarity
-    function findMatchingExperiments(interest) {
-      var matchingExperiments = [];
-      experiments.forEach(experiment => {
-        var isMatched = false;
-        experiment.keywords.forEach(keyword => {
-          if (areStringsSimilar(interest, keyword, 0.5)) {
-            isMatched = true;
+      // Function to find matching experiments based on cosine similarity
+      function findMatchingExperiments(interest) {
+        var matchingExperiments = [];
+        experiments.forEach(experiment => {
+          var isMatched = false;
+
+          experiment.keywords.forEach(keyword => {
+            // Ensure the areStringsSimilar function exists and is used properly
+            if (typeof areStringsSimilar === 'function' && areStringsSimilar(interest, keyword, 0.5)) {
+              isMatched = true;
+            }
+          });
+
+          // Add experiment if any keyword matches
+          if (isMatched && !matchingExperiments.some(exp => exp.name === experiment.name)) {
+            matchingExperiments.push({
+              name: experiment.name,
+              url: experiment.url
+            });
           }
         });
-        // Add experiment if any keyword matches
-        if (isMatched && !matchingExperiments.some(exp => exp.name === experiment.name)) {
-          matchingExperiments.push({
-            name: experiment.name,
-            url: experiment.url
-          });
-        }
-      });
-      return matchingExperiments.length ? matchingExperiments : [{ name: "Sorry, we couldn't find any matching experiments.", url: '#' }];
+
+        return matchingExperiments.length ? matchingExperiments : [{ name: "Sorry, we couldn't find any matching experiments.", url: '#' }];
+      }
+
+      // Get the suggested experiments
+      var suggestedExperiments = findMatchingExperiments(interest);
+
+      // Display the suggested experiments as clickable links
+      document.getElementById('suggestedExperiments').innerHTML = suggestedExperiments.map(experiment => 
+        `<h3><a href="${experiment.url}">${experiment.name}</a></h3>`
+      ).join('');
+      
+    } catch (error) {
+      console.error("An error occurred:", error);
+      document.getElementById('suggestedExperiments').innerHTML = '<p style="color: red;">Something went wrong. Please try again.</p>';
     }
-
-    // Get the suggested experiments
-    var suggestedExperiments = findMatchingExperiments(interest);
-
-    // Display the suggested experiments as clickable links
-    document.getElementById('suggestedExperiments').innerHTML = suggestedExperiments.map(experiment => 
-      `<h3><a href="${experiment.url}">${experiment.name}</a></h3>`
-    ).join('');
   });
 </script>
