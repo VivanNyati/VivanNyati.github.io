@@ -85,7 +85,7 @@ layout: default
       var matchingExperiments = [];
       experiments.forEach(experiment => {
         experiment.keywords.forEach(keyword => {
-          if (areStringsSimilar(interest, keyword, 0.5)) {
+          if (areStringsSimilar(interest, keyword, 0.66)) {
             if (!matchingExperiments.some(exp => exp.name === experiment.name)) {
               matchingExperiments.push({
                 name: experiment.name,
