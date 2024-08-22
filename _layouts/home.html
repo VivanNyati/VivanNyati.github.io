@@ -23,13 +23,28 @@ layout: default
   </div>
 </header>
 
+<div class="container text-center">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <h2>Search Experiments</h2>
+      <form id="interestForm">
+        <div class="form-group d-flex justify-content-center">
+          <input type="text" id="userInterest" class="form-control w-50" placeholder="Enter your search here" required>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+      <div id="suggestedExperiments" class="mt-4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Existing Manually Added Links Section -->
 <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
 
-      {{ content }}
-
-      <!-- Manually Added Links -->
       <article class="post-preview">
         <a href="https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/">
           <h2 class="post-title">Peripheral Vision Workshop</h2>
@@ -51,3 +66,48 @@ layout: default
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('interestForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Get the user's interest input
+    var interest = document.getElementById('userInterest').value.toLowerCase();
+
+    // List of experiments and their corresponding keywords and links
+    var experiments = [
+      { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'], link: 'https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/' },
+      { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'], link: 'https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/' }
+    ];
+
+    // Function to find matching experiments
+    function findExperiments(interest) {
+      var matchedExperiments = [];
+      for (var i = 0; i < experiments.length; i++) {
+        for (var j = 0; j < experiments[i].keywords.length; j++) {
+          if (interest.includes(experiments[i].keywords[j])) {
+            matchedExperiments.push(experiments[i]);
+            break; // Break inner loop to avoid duplicate results
+          }
+        }
+      }
+      return matchedExperiments;
+    }
+
+    // Get the list of matching experiments
+    var matchedExperiments = findExperiments(interest);
+
+    // Display the matched experiments
+    var resultContainer = document.getElementById('suggestedExperiments');
+    resultContainer.innerHTML = ''; // Clear previous results
+
+    if (matchedExperiments.length > 0) {
+      matchedExperiments.forEach(function(exp) {
+        var experimentHTML = "<h3><a href='" + exp.link + "' target='_blank'>" + exp.name + "</a></h3>";
+        resultContainer.innerHTML += experimentHTML;
+      });
+    } else {
+      resultContainer.innerHTML = "<h3>Sorry, we couldn't find any matching experiments.</h3>";
+    }
+  });
+</script>
