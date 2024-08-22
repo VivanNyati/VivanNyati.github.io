@@ -46,7 +46,7 @@ layout: default
     <div class="col-lg-8 col-md-10 mx-auto">
       <!-- Manually Added Links -->
       <article class="post-preview">
-        <a href="https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/">
+        <a href="https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/" class="experiment-link" data-url="https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/">
           <h2 class="post-title">Peripheral Vision Workshop</h2>
           <h3 class="post-subtitle">Explore the science of peripheral vision.</h3>
         </a>
@@ -55,7 +55,7 @@ layout: default
       <hr>
 
       <article class="post-preview">
-        <a href="https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/">
+        <a href="https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/" class="experiment-link" data-url="https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/">
           <h2 class="post-title">Saccade Vision Workshop</h2>
           <h3 class="post-subtitle">Explore the science of saccade vision.</h3>
         </a>
@@ -66,7 +66,6 @@ layout: default
   </div>
 </div>
 
-<!-- Ensure the script is correctly linked -->
 <script src="{{ '/assets/js/similarity.js' | relative_url }}"></script>
 <script>
   document.getElementById('interestForm').addEventListener('submit', function(e) {
@@ -75,10 +74,10 @@ layout: default
     // Get the user's interest input
     var interest = document.getElementById('userInterest').value.toLowerCase();
 
-    // List of experiments and keyword matching
+    // List of experiments with keywords and links
     var experiments = [
-      { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'] },
-      { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'] }
+      { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'], url: 'https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/' },
+      { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'], url: 'https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/' }
     ];
 
     // Function to find matching experiments based on cosine similarity
@@ -87,13 +86,16 @@ layout: default
       experiments.forEach(experiment => {
         experiment.keywords.forEach(keyword => {
           if (areStringsSimilar(interest, keyword, 0.5)) {
-            if (!matchingExperiments.includes(experiment.name)) {
-              matchingExperiments.push(experiment.name);
+            if (!matchingExperiments.some(exp => exp.name === experiment.name)) {
+              matchingExperiments.push({
+                name: experiment.name,
+                url: experiment.url
+              });
             }
           }
         });
       });
-      return matchingExperiments.length ? matchingExperiments : ["Sorry, we couldn't find any matching experiments."];
+      return matchingExperiments.length ? matchingExperiments : [{ name: "Sorry, we couldn't find any matching experiments.", url: '#' }];
     }
 
     // Get the suggested experiments
@@ -101,7 +103,7 @@ layout: default
 
     // Display the suggested experiments as clickable links
     document.getElementById('suggestedExperiments').innerHTML = suggestedExperiments.map(experiment => 
-      `<h3><a href="#">${experiment}</a></h3>`
+      `<h3><a href="${experiment.url}">${experiment.name}</a></h3>`
     ).join('');
   });
 </script>
