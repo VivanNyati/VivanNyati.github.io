@@ -1,53 +1,109 @@
+---
+layout: default
+---
+
+<!-- Page Header -->
+{% if page.background %}
+<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
+{% else %}
+<header class="masthead">
+{% endif %}
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="page-heading">
+          <h1>{{ site.title }}</h1>
+          {% if site.description %}
+          <span class="subheading">{{ site.description }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="container text-center">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <h2>Search Experiments</h2>
+      <form id="interestForm">
+        <div class="form-group d-flex justify-content-center">
+          <input type="text" id="userInterest" class="form-control w-50" placeholder="Enter your search here" required>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+      <div id="suggestedExperiments" class="mt-4"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <!-- Manually Added Links -->
+      <article class="post-preview">
+        <a href="https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/" class="experiment-link" data-url="https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/">
+          <h2 class="post-title">Peripheral Vision Workshop</h2>
+          <h3 class="post-subtitle">Explore the science of peripheral vision.</h3>
+        </a>
+      </article>
+
+      <hr>
+
+      <article class="post-preview">
+        <a href="https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/" class="experiment-link" data-url="https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/">
+          <h2 class="post-title">Saccade Vision Workshop</h2>
+          <h3 class="post-subtitle">Explore the science of saccade vision.</h3>
+        </a>
+      </article>
+
+      <hr>
+    </div>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/similarity.js' | relative_url }}"></script>
 <script>
   document.getElementById('interestForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    try {
-      // Get the user's interest input
-      var interest = document.getElementById('userInterest').value.toLowerCase();
+    // Get the user's interest input
+    var interest = document.getElementById('userInterest').value.toLowerCase();
 
-      // List of experiments with keywords and links
-      var experiments = [
-        { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'], url: 'https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/' },
-        { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'], url: 'https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/' }
-      ];
+    // List of experiments with keywords and links
+    var experiments = [
+      { name: 'Peripheral Vision Workshop', keywords: ['peripheral', 'vision'], url: 'https://run.pavlovia.org/Hartwell/peripheralvis_workshop/html/' },
+      { name: 'Saccade Vision Workshop', keywords: ['saccade', 'eye movement'], url: 'https://run.pavlovia.org/Hartwell/saccadetime_workshop/html/' }
+    ];
 
-      // Function to find matching experiments based on cosine similarity
-      function findMatchingExperiments(interest) {
-        var matchingExperiments = [];
-        experiments.forEach(experiment => {
-          var isMatched = false;
-
-          experiment.keywords.forEach(keyword => {
-            // Ensure the areStringsSimilar function exists and is used properly
-            if (typeof areStringsSimilar === 'function' && areStringsSimilar(interest, keyword, 0.5)) {
-              isMatched = true;
+    // Function to find matching experiments based on cosine similarity
+    function findMatchingExperiments(interest) {
+      var matchingExperiments = [];
+      experiments.forEach(experiment => {
+        experiment.keywords.forEach(keyword => {
+          if (areStringsSimilar(interest, keyword, 0.5)) {
+            if (!matchingExperiments.some(exp => exp.name === experiment.name)) {
+              matchingExperiments.push({
+                name: experiment.name,
+                url: experiment.url
+              });
             }
-          });
-
-          // Add experiment if any keyword matches
-          if (isMatched && !matchingExperiments.some(exp => exp.name === experiment.name)) {
-            matchingExperiments.push({
-              name: experiment.name,
-              url: experiment.url
-            });
           }
         });
-
-        return matchingExperiments.length ? matchingExperiments : [{ name: "Sorry, we couldn't find any matching experiments.", url: '#' }];
-      }
-
-      // Get the suggested experiments
-      var suggestedExperiments = findMatchingExperiments(interest);
-
-      // Display the suggested experiments as clickable links
-      document.getElementById('suggestedExperiments').innerHTML = suggestedExperiments.map(experiment => 
-        `<h3><a href="${experiment.url}">${experiment.name}</a></h3>`
-      ).join('');
-      
-    } catch (error) {
-      console.error("An error occurred:", error);
-      document.getElementById('suggestedExperiments').innerHTML = '<p style="color: red;">Something went wrong. Please try again.</p>';
+      });
+      return matchingExperiments.length ? matchingExperiments : [{ name: "Sorry, we couldn't find any matching experiments.", url: '#' }];
     }
+
+    // Get the suggested experiments
+    var suggestedExperiments = findMatchingExperiments(interest);
+
+    // Display the suggested experiments as clickable links
+    document.getElementById('suggestedExperiments').innerHTML = suggestedExperiments.map(experiment => 
+      `<h3><a href="${experiment.url}">${experiment.name}</a></h3>`
+    ).join('');
   });
 </script>
