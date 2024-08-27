@@ -43,3 +43,15 @@ layout: default
 
 <!-- Lightbox2 JavaScript -->
 <script src="{{ '/assets/lightbox/js/lightbox.min.js' | relative_url }}"></script>
+
+<!-- Initialize Lightbox2 -->
+<script>
+  lightbox.option({
+    'resizeDuration': 200,
+    'wrapAround': true,      // Enables left/right arrows to scroll between images
+    'fadeDuration': 300,
+    'showImageNumberLabel': false,
+    'alwaysShowNavOnTouchDevices': true,
+    'disableScrolling': true // Prevents background scroll while lightbox is active
+  });
+</script>
