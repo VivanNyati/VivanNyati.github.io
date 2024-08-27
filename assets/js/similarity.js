@@ -34,7 +34,7 @@ function cosineSimilarity(str1, str2) {
   }
 }
 
-function areStringsSimilar(str1, str2, threshold = 0.5) {
+function areStringsSimilar(str1, str2, threshold = 0.8) {
   const similarity = cosineSimilarity(str1, str2);
   return similarity >= threshold;
 }
