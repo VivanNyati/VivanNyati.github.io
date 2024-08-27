@@ -2,6 +2,9 @@
 layout: default
 ---
 
+<!-- Lightbox2 CSS -->
+<link href="{{ '/assets/lightbox/css/lightbox.min.css' | relative_url }}" rel="stylesheet">
+
 <!-- Page Header -->
 {% if page.background %}
 <header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
@@ -27,10 +30,15 @@ layout: default
     {% for image in site.data.gallery-images %}
     <div class="col-md-4">
       <div class="gallery-item">
-        <img src="{{ image.url }}" alt="{{ image.caption }}" class="img-fluid">
+        <a href="{{ image.url }}" data-lightbox="gallery" data-title="{{ image.caption }}">
+          <img src="{{ image.url }}" alt="{{ image.caption }}" class="img-fluid">
+        </a>
         <p>{{ image.caption }}</p>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
+
+<!-- Lightbox2 JavaScript -->
+<script src="{{ '/assets/lightbox/js/lightbox.min.js' | relative_url }}"></script>
