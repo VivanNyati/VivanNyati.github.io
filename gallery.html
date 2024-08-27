@@ -7,10 +7,9 @@ permalink: /gallery/
 
 <div class="container">
   <div class="row">
-    <!-- Loop through images in the static files within the gallery folder -->
     {% for image in site.data.gallery-images %}
     <div class="col-lg-4 col-md-6 col-sm-12 gallery-item">
-      <a href="{{ image.url }}">
+      <a href="{{ image.url }}" data-lightbox="gallery" data-title="{{ image.caption }}">
         <img src="{{ image.url }}" alt="{{ image.caption }}" class="img-fluid">
       </a>
       <p class="gallery-caption">{{ image.caption }}</p>
